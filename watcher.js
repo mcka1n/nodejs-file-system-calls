@@ -1,5 +1,5 @@
-# NodeJS file watcher script.
-# Dec 26, 2013 ~ 6:20 PM
+// NodeJS file watcher script.
+// Dec 26, 2013 ~ 6:20 PM
 
 const fs = require('fs');
 fs.watch('files/target_a.txt', function() {
