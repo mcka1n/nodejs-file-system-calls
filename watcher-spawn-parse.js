@@ -1,15 +1,31 @@
 // NodeJS file watcher script.
-// Dec 26, 2013 ~ 6:20 PM
+// Dec 29, 2013 ~ 10:46 AM
 
-const 
-  fs = require('fs');
+"use strict";
+
+const
+  fs = require('fs'),
+  spawn = require('child_process').spawn,
   filename = process.argv[2];
 
 if (!filename) {
-  throw Error('A file to watch must be specified in the params.');
+  throw Error("A file to watch must be specified!");
 }
 
 fs.watch(filename, function() {
-  console.log("The file '" + filename + "' just changed! :3");
+  let
+    ls = spawn('ls', ['-lh', filename]),
+    output = '';
+  ls.stdout.on('data', function(chunk){
+    output += chunk.toString();
+  });
+  
+  ls.on('close', function(){
+    let parts = output.split(/\s+/);
+    console.dir([parts[0], parts[4], parts[8]]);
+  });
 });
-console.log('Node is now watching' + filename+ ' for changes ...');
+
+console.log("Now watching " + filename + " for changes...");
+
+
